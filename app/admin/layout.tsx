@@ -7,7 +7,7 @@ import "../globals.css";
 export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body>
+      <body suppressHydrationWarning>
         <ReduxProvider>
           <AuthProvider>{children}</AuthProvider>
         </ReduxProvider>

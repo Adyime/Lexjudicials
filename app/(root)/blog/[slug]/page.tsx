@@ -22,6 +22,7 @@ interface BlogPost {
     slug: string;
   };
   createdAt: string;
+  creator: string;
 }
 
 export default function BlogDetailPage() {
@@ -138,6 +139,10 @@ export default function BlogDetailPage() {
             <div className="flex items-center">
               <Tag className="h-4 w-4 mr-1" />
               <span>{blog.category.name}</span>
+            </div>
+            <div className="flex items-center">
+              <Tag className="h-4 w-4 mr-1" />
+              <span>{blog.creator}</span>
             </div>
           </div>
 

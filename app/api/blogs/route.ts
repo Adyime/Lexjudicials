@@ -161,6 +161,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { z } from "zod";
 import slugify from "slugify";
+import { createRoot } from "@react-three/fiber";
 
 const blogSchema = z.object({
   title: z.string().min(5),
@@ -170,6 +171,7 @@ const blogSchema = z.object({
   published: z.boolean().default(false),
   featuredImage: z.string().optional(), // Base64 encoded image
   imageType: z.string().optional(), // MIME type
+  creator: z.string().optional(),
 });
 
 export async function GET(request: Request) {
@@ -258,7 +260,7 @@ export async function POST(request: Request) {
       ? `${slug}-${Date.now().toString().slice(-6)}`
       : slug;
 
-    // Process image if provided
+    // Process featured image if provided
     let imageBuffer = null;
     let imageType = null;
 
@@ -269,16 +271,18 @@ export async function POST(request: Request) {
       imageType = validatedData.imageType;
     }
 
+    // Create the blog post with the content that includes base64-encoded images
     const blog = await prisma.blog.create({
       data: {
         title: validatedData.title,
         slug: finalSlug,
         excerpt: validatedData.excerpt,
-        content: validatedData.content,
+        content: validatedData.content, // This now includes base64-encoded images
         published: validatedData.published,
         featuredImage: imageBuffer,
         imageType: imageType,
         categoryId: validatedData.categoryId,
+        creator: validatedData.creator,
       },
       include: {
         category: true,

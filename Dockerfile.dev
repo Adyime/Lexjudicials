@@ -1,0 +1,33 @@
+# Use Node.js LTS version
+FROM node:20-alpine
+
+# Install dependencies only when needed
+RUN apk add --no-cache libc6-compat netcat-openbsd
+
+WORKDIR /app
+
+# Install dependencies based on the preferred package manager
+COPY package.json package-lock.json* ./
+RUN npm install --force
+
+# Copy prisma directory and generate client
+COPY prisma ./prisma
+RUN npx prisma generate
+
+# Copy the rest of the application
+COPY . .
+
+# Set proper permissions
+RUN chown -R node:node /app
+
+# Switch to non-root user
+USER node
+
+EXPOSE 3000
+
+ENV PORT 3000
+ENV HOSTNAME "0.0.0.0"
+ENV NODE_ENV development
+
+# Start the application in development mode
+CMD ["npm", "run", "dev"] 

@@ -157,6 +157,10 @@ export default function BlogPage() {
                             <p className="line-clamp-3 text-muted-foreground">
                               {blog.excerpt}
                             </p>
+                            <br></br>
+                             <p className="line-clamp-3 text-sm text-muted-foreground">
+                             <i><b> Creator:</b> {blog.creator}</i>
+                            </p>
                           </CardContent>
                           <CardFooter>
                             <Link href={`/blog/${blog.slug}`}>

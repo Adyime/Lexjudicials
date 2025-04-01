@@ -7,14 +7,19 @@ try {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'standalone',
   eslint: {
     ignoreDuringBuilds: true,
   },
   typescript: {
+    // !! WARN !!
+    // Dangerously allow production builds to successfully complete even if
+    // your project has type errors.
+    // !! WARN !!
     ignoreBuildErrors: true,
   },
   images: {
-    domains: ["plus.unsplash.com", "images.unsplash.com"],
+    domains: ["plus.unsplash.com", "images.unsplash.com", "lh3.googleusercontent.com"],
     unoptimized: false,
     remotePatterns: [
       {
@@ -25,6 +30,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "images.unsplash.com",
       },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+      }
     ],
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",

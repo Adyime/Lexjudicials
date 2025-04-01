@@ -9,6 +9,7 @@ const blogUpdateSchema = z.object({
   title: z.string().min(5).optional(),
   excerpt: z.string().min(10).optional(),
   content: z.string().min(50).optional(),
+  creator: z.string().optional(),
   categoryId: z.string().optional(),
   published: z.boolean().optional(),
   featuredImage: z.string().optional(), // Base64 encoded image

@@ -26,6 +26,7 @@ model Blog {
   slug          String   @unique
   content       String
   excerpt       String
+  creator       String
   featuredImage Bytes? // Store image as binary data
   imageType     String? // Store the MIME type of the image
   published     Boolean  @default(false)

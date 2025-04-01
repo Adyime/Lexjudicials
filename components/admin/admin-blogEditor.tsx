@@ -54,6 +54,7 @@ const formSchema = z.object({
   published: z.boolean().default(false),
   featuredImage: z.string().optional(),
   imageType: z.string().optional(),
+  creator: z.string().optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -80,6 +81,7 @@ export function AdminBlogEditor({ blog }: AdminBlogEditorProps) {
       published: false,
       featuredImage: "",
       imageType: "",
+      creator: "",
     },
   });
 
@@ -93,6 +95,7 @@ export function AdminBlogEditor({ blog }: AdminBlogEditorProps) {
       form.reset({
         title: blog.title,
         excerpt: blog.excerpt,
+        creator: blog.creator,
         content:
           blog.content ||
           "This would be the full content of the blog post in a real implementation.",
@@ -109,6 +112,7 @@ export function AdminBlogEditor({ blog }: AdminBlogEditorProps) {
         setFeaturedImageUrl(blog.featuredImage);
       }
     }
+    console.log(blog);
   }, [blog, form, categories]);
 
   async function onSubmit(values: FormValues) {
@@ -261,6 +265,23 @@ export function AdminBlogEditor({ blog }: AdminBlogEditorProps) {
                       )}
                     </SelectContent>
                   </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="creator"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Creator</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Creator Name and Designation"
+                      className="resize-none"
+                      {...field}
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
