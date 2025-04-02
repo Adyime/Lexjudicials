@@ -50,6 +50,8 @@ const formSchema = z.object({
   }),
   categoryId: z.string({
     required_error: "Please select a category.",
+  }).min(1, {
+    message: "Please select a category.",
   }),
   published: z.boolean().default(false),
   featuredImage: z.string().optional(),
@@ -90,6 +92,25 @@ export function AdminBlogEditor({ blog }: AdminBlogEditorProps) {
     dispatch(fetchCategories());
   }, [dispatch]);
 
+  // Watch for form value changes and validate categoryId
+  useEffect(() => {
+    const subscription = form.watch((value, { name }) => {
+      // If the form is touched and categoryId is empty, show the error
+      if (name === 'categoryId' && form.formState.isSubmitted) {
+        if (!value.categoryId) {
+          form.setError('categoryId', {
+            type: 'manual',
+            message: 'Please select a category.'
+          });
+        } else {
+          form.clearErrors('categoryId');
+        }
+      }
+    });
+    
+    return () => subscription.unsubscribe();
+  }, [form]);
+
   useEffect(() => {
     if (blog) {
       form.reset({
@@ -115,6 +136,21 @@ export function AdminBlogEditor({ blog }: AdminBlogEditorProps) {
   }, [blog, form, categories]);
 
   async function onSubmit(values: FormValues) {
+    // Additional validation check for category selection
+    if (!values.categoryId || values.categoryId.trim() === '') {
+      form.setError('categoryId', {
+        type: 'manual',
+        message: 'Please select a category before submitting.'
+      });
+      
+      toast({
+        title: "Validation Error",
+        description: "Please select a category for your blog post.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     setIsSubmitting(true);
 
     try {
@@ -239,14 +275,22 @@ export function AdminBlogEditor({ blog }: AdminBlogEditorProps) {
               name="categoryId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Category</FormLabel>
+                  <FormLabel>
+                    Category <span className="text-red-500">*</span>
+                  </FormLabel>
                   <Select
-                    onValueChange={field.onChange}
+                    onValueChange={(value) => {
+                      field.onChange(value);
+                      // Clear the error when a value is selected
+                      if (value) {
+                        form.clearErrors('categoryId');
+                      }
+                    }}
                     defaultValue={field.value}
                     value={field.value}
                   >
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className={form.formState.errors.categoryId ? "border-red-300 ring-red-500" : ""}>
                         <SelectValue placeholder="Select a category" />
                       </SelectTrigger>
                     </FormControl>
@@ -264,7 +308,10 @@ export function AdminBlogEditor({ blog }: AdminBlogEditorProps) {
                       )}
                     </SelectContent>
                   </Select>
-                  <FormMessage />
+                  <FormDescription>
+                    Required. Select a category for your blog post.
+                  </FormDescription>
+                  <FormMessage className="text-red-500 font-medium" />
                 </FormItem>
               )}
             />
@@ -390,7 +437,7 @@ export function AdminBlogEditor({ blog }: AdminBlogEditorProps) {
               <Button
                 type="submit"
                 className="bg-blue-600 hover:bg-blue-700 text-white"
-                disabled={isSubmitting || categories.length === 0}
+                disabled={isSubmitting || categories.length === 0 || !form.getValues('categoryId')}
               >
                 {isSubmitting ? (
                   <>

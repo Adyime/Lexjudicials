@@ -3,9 +3,11 @@ import nodemailer from "nodemailer";
 
 export async function POST(request: Request) {
   try {
-    const { name, email, message, phone } = await request.json();
 
-    if (!name || !email || !message || !phone) {
+    const { firstName, lastName, email, phone, service, message} = await request.json();
+
+
+    if (!firstName || !lastName || !email || !message || !phone || !service) {
       return NextResponse.json(
         { message: "All fields are required" },
         { status: 400 }
@@ -29,8 +31,8 @@ export async function POST(request: Request) {
       from: process.env.H_USER,
       to: process.env.H_USER,
       replyTo: email,
-      subject: `Contact Form Submission from ${name}`,
-      text: `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`,
+      subject: `Contact Form Submission from ${firstName||lastName}`,
+      text: `Name: ${firstName||' '||lastName}\nEmail: ${email}\nPhone: ${phone}\nService: ${service}\nMessage: ${message}`,
       html: `
         <html>
         <head>
@@ -77,10 +79,11 @@ export async function POST(request: Request) {
               <h2>Query Form</h2>
             </div>
             <div class="content">
-              <p><strong>Name:</strong> ${name}</p>
+              <p><strong>Name:</strong> ${firstName||' '||lastName}</p>
               <p><strong>Email:</strong> ${email}</p>
               <p><strong>Phone:</strong> ${phone}</p>
-              <p><strong>Query:</strong> ${message}</p>
+              <p><strong>Service:</strong> ${service}</p>
+              <p><strong>Message:</strong> ${message}</p>
             </div>
             <div class="footer">
               <p>New Query</p>

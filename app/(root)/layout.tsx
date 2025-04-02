@@ -34,7 +34,10 @@ export const metadata: Metadata = {
     "lawyers",
     "legal representation",
   ],
-  generator: "v0.dev",
+  icons: {
+    icon: "/favicon.ico", // ✅ Path to favicon
+  },
+
 };
 
 export default function RootLayout({
@@ -44,6 +47,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+     <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+      </head>
+
       <body
         className={`${montserrat.variable} ${cormorant.variable} font-sans`}
       >

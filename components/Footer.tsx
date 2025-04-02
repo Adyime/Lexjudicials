@@ -13,22 +13,20 @@ import {
   Scale,
   ArrowRight,
 } from "lucide-react";
+import Image from "next/image";
 
 const practiceAreas = [
-  { name: "Criminal Defense", href: "/services/criminal-defense" },
-  { name: "Corporate Law", href: "/services/corporate-law" },
-  { name: "Civil Litigation", href: "/services/civil-litigation" },
-  { name: "Family Law", href: "/services/family-law" },
-  { name: "Personal Injury", href: "/services/personal-injury" },
-  { name: "Intellectual Property", href: "/services/intellectual-property" },
+  { name: "Criminal Defense", href: "/services" },
+  { name: "Corporate Law", href: "/services" },
+  { name: "Civil Litigation", href: "/services" },
+  { name: "Family Law", href: "/services" },
+  { name: "Personal Injury", href: "/services" },
+  { name: "Intellectual Property", href: "/services" },
 ];
 
 const quickLinks = [
   { name: "About Us", href: "/about" },
-  { name: "Our Team", href: "/about/team" },
-  { name: "Testimonials", href: "/testimonials" },
   { name: "Blog", href: "/blog" },
-  { name: "Careers", href: "/careers" },
   { name: "Contact", href: "/contact" },
 ];
 
@@ -64,11 +62,11 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-12 md:mb-16">
           <div>
             <div className="flex items-center gap-2 mb-4 md:mb-6">
-              <Scale className="h-6 w-6 md:h-8 md:w-8 text-secondary" />
-              <span className="text-xl md:text-2xl font-bold font-heading">
-                <span className="text-white">Justice</span>
-                <span className="text-secondary">Law</span>
-              </span>
+              {/* <span className="text-xl md:text-2xl font-bold font-heading"> */}
+              <Link href="/" className="flex items-center gap-2 z-10">
+              <Image src="/Logo.png" alt="LOGO" width={120} height={50} />
+              </Link>
+              {/* </span> */}
             </div>
             <p className="mb-4 md:mb-6 text-white/80 text-sm md:text-base">
               Providing exceptional legal services with integrity, dedication,
@@ -97,8 +95,9 @@ export default function Footer() {
                 <span className="sr-only">LinkedIn</span>
               </Link>
               <Link
-                href="#"
+                href="https://www.instagram.com/lexjudislawoffice?igsh=MWVsOG5oenB6NTBscQ=="
                 className="bg-white/10 hover:bg-white/20 p-2 rounded-full transition-colors"
+                target="_blank"
               >
                 <Instagram className="h-4 w-4 md:h-5 md:w-5" />
                 <span className="sr-only">Instagram</span>
@@ -152,41 +151,23 @@ export default function Footer() {
               <div className="flex items-start gap-3">
                 <MapPin className="h-5 w-5 text-secondary shrink-0 mt-0.5" />
                 <p className="text-white/70 text-sm md:text-base">
-                  123 Legal Avenue, Suite 500
-                  <br />
-                  New York, NY 10001
+                Office No.8, Shiva Market, Nr Khureji  Red Light,
+                <br />
+                 Khureji Delhi-110051
                 </p>
               </div>
               <div className="flex items-center gap-3">
                 <Phone className="h-5 w-5 text-secondary shrink-0" />
                 <p className="text-white/70 text-sm md:text-base">
-                  (555) 123-4567
+                +91 95609 68575
                 </p>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="h-5 w-5 text-secondary shrink-0" />
                 <p className="text-white/70 text-sm md:text-base">
-                  contact@justicelaw.com
+                  office@lexjudis.com
                 </p>
               </div>
-            </div>
-            <div className="mt-4 md:mt-6">
-              <h4 className="font-medium mb-3 md:mb-4 text-sm md:text-base">
-                Subscribe to our newsletter
-              </h4>
-              <div className="flex gap-2">
-                <Input
-                  type="email"
-                  placeholder="Your email"
-                  className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:ring-2 focus:ring-secondary text-sm"
-                />
-                <Button className="bg-secondary text-secondary-foreground hover:bg-secondary/90">
-                  Subscribe
-                </Button>
-              </div>
-              <p className="text-xs text-white/50 mt-2">
-                We respect your privacy. Unsubscribe at any time.
-              </p>
             </div>
           </div>
         </div>
@@ -197,7 +178,7 @@ export default function Footer() {
               &copy; {new Date().getFullYear()} Justice Law. All rights
               reserved.
             </p>
-            <div className="flex gap-4 md:gap-6">
+            {/* <div className="flex gap-4 md:gap-6">
               <Link
                 href="/privacy"
                 className="text-xs md:text-sm text-white/60 hover:text-secondary"
@@ -216,7 +197,7 @@ export default function Footer() {
               >
                 Sitemap
               </Link>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

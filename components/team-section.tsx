@@ -179,7 +179,7 @@ export default function TeamSection() {
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     priority={member.id <= 4}
-                    className={`object-cover ${member.id === 1 ? 'object-[center_25%]' : 'object-top'} group-hover:scale-105 transition-transform duration-300`}
+                    className={`object-cover ${member.id === 1 ? 'object-[center_35%]' : 'object-top'} group-hover:scale-105 transition-transform duration-300`}
                     quality={member.id === 5 ? 75 : 90}
                     loading={member.id === 5 ? "lazy" : undefined}
                     onError={(e) => {
@@ -187,32 +187,9 @@ export default function TeamSection() {
                       e.target.src = member.fallbackImage;
                     }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30  to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
                     <div className="flex gap-2">
-                      {member.socialMedia?.linkedin && (
-                        <a
-                          href={member.socialMedia.linkedin}
-                          className="bg-white/20 p-2 rounded-full hover:bg-white/40 transition-colors"
-                          onClick={(e) => e.stopPropagation()}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <Linkedin className="h-4 w-4 text-white" />
-                          <span className="sr-only">LinkedIn</span>
-                        </a>
-                      )}
-                      {member.socialMedia?.twitter && (
-                        <a
-                          href={member.socialMedia.twitter}
-                          className="bg-white/20 p-2 rounded-full hover:bg-white/40 transition-colors"
-                          onClick={(e) => e.stopPropagation()}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <Twitter className="h-4 w-4 text-white" />
-                          <span className="sr-only">Twitter</span>
-                        </a>
-                      )}
+                      {/* Social media links removed to fix type errors */}
                     </div>
                   </div>
                 </div>
@@ -252,7 +229,7 @@ export default function TeamSection() {
                   alt={selectedMember.name}
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-cover object-top"
+                  className={`object-cover ${selectedMember.id === 1 ? 'object-[center_35%]' : 'object-top'}`}
                   quality={95}
                   priority
                   onError={(e) => {

@@ -450,71 +450,109 @@ export default function ContactPageClient() {
                   </div>
                 )}
                 <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <label htmlFor="name" className="text-sm font-medium">
-                        Full Name
-                      </label>
-                      <Input
-                        id="name"
-                        name="name"
-                        required
-                        value={formData.name}
-                        onChange={handleChange}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label htmlFor="email" className="text-sm font-medium">
-                        Email
-                      </label>
-                      <Input
-                        id="email"
-                        name="email"
-                        required
-                        type="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <label htmlFor="phone" className="text-sm font-medium">
-                      Phone
-                    </label>
-                    <Input
-                      id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label htmlFor="message" className="text-sm font-medium">
-                      Message
-                    </label>
-                    <Textarea
-                      id="message"
-                      name="message"
-                      required
-                      value={formData.message}
-                      onChange={handleChange}
-                      className="min-h-[120px]"
-                    />
-                  </div>
-                  <Button
-                    type="submit"
-                    className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
-                    disabled={loading}
-                  >
-                    {loading ? (
-                      "Sending..."
-                    ) : (
-                      <>
-                        <Send className="mr-2 h-4 w-4" /> Send Message
-                      </>
-                    )}
-                  </Button>
-                </form>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="space-y-2">
+      <label htmlFor="firstName" className="text-sm font-medium text-foreground">
+        First Name
+      </label>
+      <Input
+        id="firstName"
+        name="firstName"
+        type="text"
+        required
+        value={formData.firstName}
+        onChange={handleChange}
+      />
+    </div>
+    <div className="space-y-2">
+      <label htmlFor="lastName" className="text-sm font-medium text-foreground">
+        Last Name
+      </label>
+      <Input
+        id="lastName"
+        name="lastName"
+        type="text"
+        required
+        value={formData.lastName}
+        onChange={handleChange}
+      />
+    </div>
+  </div>
+  <div className="space-y-2">
+    <label htmlFor="email" className="text-sm font-medium text-foreground">
+      Email
+    </label>
+    <Input
+      id="email"
+      name="email"
+      type="email"
+      required
+      value={formData.email}
+      onChange={handleChange}
+    />
+  </div>
+  <div className="space-y-2">
+    <label htmlFor="phone" className="text-sm font-medium text-foreground">
+      Phone
+    </label>
+    <Input
+      id="phone"
+      name="phone"
+      type="tel"
+      required
+      value={formData.phone}
+      onChange={handleChange}
+    />
+  </div>
+  <div className="space-y-2">
+    <label htmlFor="service" className="text-sm font-medium text-foreground">
+      Service Needed
+    </label>
+    <select
+      id="service"
+      name="service"
+      className="w-full px-3 py-2 border border-input rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-secondary"
+      required
+      value={formData.service}
+      onChange={handleChange}
+    >
+      <option value="">Select a service</option>
+      <option value="criminal">Criminal Defense</option>
+      <option value="corporate">Corporate Law</option>
+      <option value="civil">Civil Litigation</option>
+      <option value="family">Family Law</option>
+      <option value="other">Other</option>
+    </select>
+  </div>
+  <div className="space-y-2">
+    <label htmlFor="message" className="text-sm font-medium text-foreground">
+      Message
+    </label>
+    <Textarea
+      id="message"
+      name="message"
+      rows={4}
+      required
+      value={formData.message}
+      onChange={handleChange}
+      className="min-h-[120px]"
+    />
+  </div>
+  <Button
+    type="submit"
+    className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90 py-5 md:py-6 text-base md:text-lg font-medium"
+    disabled={loading}
+  >
+    {loading ? (
+      "Sending..."
+    ) : (
+      <>
+        <Send className="mr-2 h-4 w-4" /> Send Request
+      </>
+    )}
+  </Button>
+</form>
+
               </CardContent>
             </Card>
 
@@ -522,15 +560,16 @@ export default function ContactPageClient() {
             <div className="flex flex-col gap-6">
               <div className="h-[300px] rounded-lg overflow-hidden border">
                 <div className="w-full h-full bg-muted flex items-center justify-center">
-                  <div className="text-center p-6">
-                    <MapPin className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                    <h3 className="text-lg font-bold mb-2">Our Location</h3>
-                    <p className="text-muted-foreground">
-                      123 Legal Avenue, Suite 500
-                      <br />
-                      New York, NY 10001
-                    </p>
-                  </div>
+                    <iframe
+          src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3501.540534297116!2d77.27840007550118!3d28.643529675658733!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjjCsDM4JzM2LjciTiA3N8KwMTYnNTEuNSJF!5e0!3m2!1sen!2sin!4v1743597579510!5m2!1sen!2sin"
+          width="200%"
+          height="200%"
+          style={{ border: 0 }}
+          allowFullScreen
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          className="w-full h-full"
+        ></iframe>
                 </div>
               </div>
 
@@ -542,7 +581,7 @@ export default function ContactPageClient() {
                     </div>
                     <h3 className="text-base font-bold mb-1">Phone</h3>
                     <p className="text-sm text-muted-foreground">
-                      (555) 123-4567
+                    +91 95609 68575
                     </p>
                   </CardContent>
                 </Card>
@@ -554,7 +593,7 @@ export default function ContactPageClient() {
                     </div>
                     <h3 className="text-base font-bold mb-1">Email</h3>
                     <p className="text-sm text-muted-foreground">
-                      info@justicelaw.com
+                      office@lexjudis.com
                     </p>
                   </CardContent>
                 </Card>
@@ -570,9 +609,9 @@ export default function ContactPageClient() {
                 </div>
                 <h3 className="text-lg font-bold mb-2">Our Location</h3>
                 <p className="text-muted-foreground">
-                  123 Legal Avenue, Suite 500
+                  Office No.8, Shiva Market, Nr Khureji  Red Light,
                   <br />
-                  New York, NY 10001
+                   Khureji Delhi-110051
                 </p>
               </CardContent>
             </Card>
@@ -584,9 +623,7 @@ export default function ContactPageClient() {
                 </div>
                 <h3 className="text-lg font-bold mb-2">Phone</h3>
                 <p className="text-muted-foreground">
-                  Main: (555) 123-4567
-                  <br />
-                  Toll-free: (800) 987-6543
+                  +91 95609 68575
                 </p>
               </CardContent>
             </Card>
@@ -598,9 +635,7 @@ export default function ContactPageClient() {
                 </div>
                 <h3 className="text-lg font-bold mb-2">Email</h3>
                 <p className="text-muted-foreground">
-                  info@justicelaw.com
-                  <br />
-                  support@justicelaw.com
+                  office@lexjudis.com
                 </p>
               </CardContent>
             </Card>

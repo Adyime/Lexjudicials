@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronRight, Shield, Briefcase, Scale, Users } from "lucide-react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 
 // Dynamically import 3D components to avoid SSR issues
 const DecorativeElement = dynamic(() => import("./3d/decorative-element"), {
@@ -195,13 +196,13 @@ export default function FeaturedServices() {
                             </motion.li>
                           ))}
                         </ul>
-                        <Button
+                        {/* <Button
                           variant="link"
                           className="mt-4 p-0 text-secondary font-medium group"
                         >
                           Learn More
                           <ChevronRight className="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" />
-                        </Button>
+                        </Button> */}
                       </CardContent>
                     )}
                   </Card>
@@ -231,9 +232,11 @@ export default function FeaturedServices() {
               <p className="text-white/80 mb-4 text-sm md:text-base">
                 {services[activeIndex].description}
               </p>
+              <Link href="/services">
               <Button className="w-fit bg-secondary text-secondary-foreground hover:bg-secondary/90">
                 Explore {services[activeIndex].title}
               </Button>
+              </Link>
             </div>
           </motion.div>
         </div>
@@ -245,6 +248,7 @@ export default function FeaturedServices() {
           transition={{ duration: 0.5, delay: 0.5 }}
           className="text-center mt-8 md:mt-16"
         >
+          <Link href="/services">
           <Button
             size="lg"
             variant="outline"
@@ -253,6 +257,7 @@ export default function FeaturedServices() {
             View All Practice Areas
             <ChevronRight className="ml-2 h-5 w-5" />
           </Button>
+          </Link>
         </motion.div>
       </div>
     </section>
