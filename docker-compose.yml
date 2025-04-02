@@ -22,7 +22,7 @@ services:
       - postgres_db
     environment:
       DATABASE_URL: "postgresql://postgres:postgres@postgres_db:5432/lexjudis"
-      NEXTAUTH_URL: "http://localhost:1009"
+      NEXTAUTH_URL: "https://lexjudis.com"
       NEXTAUTH_SECRET: "your-nextauth-secret-key-change-this-in-production"
       H_USER: "office@lexjudis.com"
       H_PASS: "Office@lexjudis.com1"
