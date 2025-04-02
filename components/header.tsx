@@ -77,10 +77,11 @@ export default function Header() {
               <Moon className="h-5 w-5" />
             )}
           </Button> */}
-
+          <Link href="/contact#consultation">
           <Button className="bg-black text-white hover:bg-gray-800 font-medium">
             Free Consultations
           </Button>
+          </Link>
         </nav>
 
         {/* Mobile Navigation */}
