@@ -8,7 +8,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: lawFirm
+      POSTGRES_DB: lexjudis
     ports:
       - "5434:5432"
     volumes:
@@ -16,12 +16,12 @@ services:
 
   app:
     build: .
-    container_name: my_app
+    container_name: lexjudis_app
     restart: always
     depends_on:
       - postgres_db
     environment:
-      DATABASE_URL: "postgresql://postgres:postgres@postgres_db:5432/lawFirm"
+      DATABASE_URL: "postgresql://postgres:postgres@postgres_db:5432/lexjudis"
       NEXTAUTH_URL: "http://localhost:1009"
       NEXTAUTH_SECRET: "your-nextauth-secret-key-change-this-in-production"
       H_USER: "office@lexjudis.com"
