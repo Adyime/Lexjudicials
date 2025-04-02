@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,10 +17,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { Scale, Lock } from "lucide-react";
-import Link from "next/link";
-import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
-import { loginUser, clearError } from "@/lib/redux/slices/authSlice";
+import { Scale, Lock, Mail } from "lucide-react";
+import { motion } from "framer-motion";
+import Image from "next/image";
+import { useTheme } from "next-themes";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -34,13 +34,13 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 export default function LoginPage() {
-  const dispatch = useAppDispatch();
-  const { isLoading, error, isAuthenticated } = useAppSelector(
-    (state) => state.auth
-  );
-  const [localLoading, setLocalLoading] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const { data: session, status } = useSession();
   const router = useRouter();
   const { toast } = useToast();
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -50,32 +50,26 @@ export default function LoginPage() {
     },
   });
 
+  // Handle client-side mounting
   useEffect(() => {
-    // Redirect if already authenticated
-    if (isAuthenticated) {
-      router.push("/admin");
-    }
-  }, [isAuthenticated, router]);
-
-  useEffect(() => {
-    // Show error toast if there's an error
-    if (error) {
-      toast({
-        title: "Login Failed",
-        description: error,
-        variant: "destructive",
-      });
-      dispatch(clearError());
-    }
-  }, [error, toast, dispatch]);
-
-  // Reset loading state when component mounts
-  useEffect(() => {
-    setLocalLoading(false);
+    setMounted(true);
+    return () => {
+      setMounted(false);
+    };
   }, []);
 
+  useEffect(() => {
+    if (status === "authenticated") {
+      // Use a timeout to ensure clean navigation
+      const redirectTimer = setTimeout(() => {
+        router.push("/admin");
+      }, 100);
+      return () => clearTimeout(redirectTimer);
+    }
+  }, [status, router]);
+
   async function onSubmit(values: FormValues) {
-    setLocalLoading(true);
+    setIsLoading(true);
 
     try {
       const response = await signIn("credentials", {
@@ -90,7 +84,7 @@ export default function LoginPage() {
           description: response.error,
           variant: "destructive",
         });
-        setLocalLoading(false);
+        setIsLoading(false);
         return;
       }
 
@@ -98,29 +92,67 @@ export default function LoginPage() {
         title: "Login Successful",
         description: "Welcome to the admin dashboard.",
       });
-
-      router.push("/admin");
+      
+      // Don't navigate immediately - let the status update effect handle it
+      // This prevents navigation race conditions
     } catch (error) {
       toast({
         title: "Login Failed",
-        description: "An unexpected error occurred. Please try again.",
+        description: "An unexpected error occurred.",
         variant: "destructive",
       });
-      setLocalLoading(false);
+      setIsLoading(false);
     }
   }
 
-  return (
-    <div className="min-h-screen relative flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div className="text-center">
-          <h2 className="mt-6 text-3xl font-bold text-white">Admin Login</h2>
-          <p className="mt-2 text-sm text-white dark:text-gray-400">
-            Sign in to access the admin dashboard
-          </p>
-        </div>
+  // Show loading state while checking authentication or mounting
+  if (!mounted || status === "loading") {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-secondary"></div>
+      </div>
+    );
+  }
 
-        <div className="mt-8  dark:bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10">
+  return (
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background Image with Overlay */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="https://images.unsplash.com/photo-1589216532372-1c2a367900d9?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGxhdyUyMGZpcm18ZW58MHx8MHx8fDA%3D"
+          alt="Law firm background"
+          fill
+          priority
+          className="object-cover"
+        />
+        <div
+          className={`absolute inset-0 ${
+            isDark
+              ? "bg-gradient-to-r from-navy-dark/95 to-navy-dark/85"
+              : "bg-gradient-to-r from-navy-dark/90 to-navy-dark/80"
+          }`}
+        ></div>
+      </div>
+
+      {/* Login Form */}
+      <div className="container relative z-10 py-8 md:py-12 px-4 md:px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="max-w-md mx-auto bg-white/10 backdrop-blur-lg rounded-xl p-8 shadow-lg"
+        >
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center gap-2 bg-secondary/20 px-3 py-1.5 rounded-full mb-4">
+              <Scale className="h-4 w-4 text-secondary" />
+              <span className="text-secondary font-medium text-sm font-sans">
+                Admin Access
+              </span>
+            </div>
+            <h1 className="text-3xl font-bold mb-2 text-white font-heading">Welcome Back</h1>
+            <p className="text-white/80 font-sans">Sign in to access the admin dashboard</p>
+          </div>
+
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <FormField
@@ -128,11 +160,19 @@ export default function LoginPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel className="text-white font-sans">Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="admin@example.com" {...field} />
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/50" />
+                        <Input
+                          placeholder="Enter your email"
+                          type="email"
+                          className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-white/50 font-sans"
+                          {...field}
+                        />
+                      </div>
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-red-400 font-sans" />
                   </FormItem>
                 )}
               />
@@ -142,71 +182,34 @@ export default function LoginPage() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel className="text-white font-sans">Password</FormLabel>
                     <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="••••••••"
-                        {...field}
-                      />
+                      <div className="relative">
+                        <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/50" />
+                        <Input
+                          placeholder="Enter your password"
+                          type="password"
+                          className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-white/50 font-sans"
+                          {...field}
+                        />
+                      </div>
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-red-400 font-sans" />
                   </FormItem>
                 )}
               />
 
               <Button
                 type="submit"
-                className="w-full bg-white "
-                disabled={localLoading}
+                className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90 font-sans"
+                disabled={isLoading}
               >
-                {localLoading ? (
-                  <div className="flex items-center">
-                    <svg
-                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      ></circle>
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
-                    </svg>
-                    Signing in...
-                  </div>
-                ) : (
-                  <div className="flex items-center justify-center">
-                    <Lock className="mr-2 h-4 w-4" />
-                    Sign in
-                  </div>
-                )}
+                {isLoading ? "Signing in..." : "Sign In"}
               </Button>
-
-              {/* <div className="text-center mt-4">
-                <p className="text-sm text-white dark:text-gray-400">
-                  Don't have an account?{" "}
-                  <Link
-                    href="/admin/register"
-                    className="text-blue-600 hover:text-blue-500 dark:text-blue-400"
-                  >
-                    Register
-                  </Link>
-                </p>
-              </div> */}
             </form>
           </Form>
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </section>
   );
 }

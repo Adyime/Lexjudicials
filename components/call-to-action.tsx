@@ -15,14 +15,14 @@ export default function CallToAction() {
       <div className="absolute inset-0 bg-[url('/placeholder.svg?height=100&width=100')] bg-repeat opacity-5 z-0"></div>
 
       {/* Decorative Elements */}
-      <div className="absolute top-0 right-0 w-1/3 h-full opacity-20 z-0">
+      {/* <div className="absolute top-0 right-0 w-1/3 h-full opacity-20 z-0">
         <Image
           src="/placeholder.svg?height=800&width=600"
           alt="Decorative"
           fill
           className="object-cover"
         />
-      </div>
+      </div> */}
       <div className="absolute bottom-0 left-0 w-64 h-64 bg-secondary/20 rounded-full filter blur-3xl"></div>
 
       {/* 3D Decorative Elements */}

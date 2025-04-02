@@ -21,13 +21,10 @@ const teamMembers = [
     name: "Adv. Abdul Gaffar",
     role: "Senior Partner",
     specialty: "Criminal Law",
-    image: "/abdul.png",
+    image: "/abdul.jpg",
     fallbackImage: "/placeholder-user.jpg",
     bio: "Adv. Abdul Gaffar is a prominent and dynamic lawyer renowned for his expertise in criminal, civil, and industrial legal practices. With a reputation as a skilled bail specialist, he has successfully represented numerous clients in complex legal matters. His dedication to justice and his sharp legal acumen have earned him recognition in the legal fraternity. Beyond his professional achievements, he is deeply committed to the betterment of society, actively engaging in pro bono work and advocating for marginalized communities.",
-    socialMedia: {
-      linkedin: "#",
-      twitter: "#",
-    },
+
   },
   {
     id: 2,
@@ -37,10 +34,7 @@ const teamMembers = [
     image: "/nakul.jpg",
     fallbackImage: "/placeholder-user.jpg",
     bio: "Nakul Sharma is not just a lawyer; he is a relentless force in the pursuit of justice. With unwavering dedication and an unbreakable spirit, he gives his everything to ensure his clients win when it matters the most. A risk-taker, an action-taker, and a strategist, Nakul Sharma thrives under pressure. When backed against the wall, he doesn't retreat—he breaks through. His commitment to justice is unmatched, and his determination to serve his clients and the needy never wavers.",
-    socialMedia: {
-      linkedin: "#",
-      twitter: "#",
-    },
+
   },
   {
     id: 3,
@@ -50,10 +44,7 @@ const teamMembers = [
     image: "/sameer.JPG",
     fallbackImage: "/placeholder-user.jpg",
     bio: "Advocate Sameer Khan is a name synonymous with fearless advocacy and relentless pursuit of justice. With a sharp legal mind and a bold courtroom presence, he is known for his unwavering dedication to his clients and his ability to dismantle even the most complex legal challenges. His approach to law is strategic and meticulous—every argument is calculated, every move is precise, ensuring that his clients receive the strongest legal representation possible.",
-    socialMedia: {
-      linkedin: "#",
-      twitter: "#",
-    },
+
   },
   {
     id: 4,
@@ -63,10 +54,7 @@ const teamMembers = [
     image: "/nadeem.jpg",
     fallbackImage: "/placeholder-user.jpg",
     bio: "For Advocate Nadeem Khan, law is not just a profession—it is a mission to protect the vulnerable, uphold justice, and serve those who need it the most. With a strong background in human rights law, criminal defense, and social justice cases, he has earned a reputation as a champion of the underprivileged and a fierce protector of justice. His approach is deeply empathetic yet aggressively legal, striking a balance between understanding his clients' struggles and delivering ironclad legal representation.",
-    socialMedia: {
-      linkedin: "#",
-      twitter: "#",
-    },
+
   },
   {
     id: 5,
@@ -76,10 +64,7 @@ const teamMembers = [
     image: "/nasir.jpg",
     fallbackImage: "/placeholder-user.jpg",
     bio: "Advocate Nasir Hussain is not just a legal professional—he is a master strategist, a relentless fighter, and a results-driven advocate who knows how to turn the tides in favor of his clients. With an exceptional understanding of the law and an innate ability to foresee every possible move in a legal battle, he approaches every case as a game that must be won on a partner basis—where his clients are not just spectators but empowered participants in their pursuit of justice.",
-    socialMedia: {
-      linkedin: "#",
-      twitter: "#",
-    },
+
   },
   {
     id: 6,
@@ -89,10 +74,7 @@ const teamMembers = [
     image: "/danish.jpg",
     fallbackImage: "/placeholder-user.jpg",
     bio: "Advocate Danish Khan is a name that resonates with precision, strategy, and an unwavering commitment to justice. He is not just a lawyer—he is a legal tactician who knows exactly which string to pull and when to pull it to ensure that justice prevails. With a deep understanding of the legal system, combined with years of experience and an instinct for strategic action, he has earned a reputation as one of the most formidable advocates in his field.",
-    socialMedia: {
-      linkedin: "#",
-      twitter: "#",
-    },
+
   },
   {
     id: 7,
@@ -102,10 +84,7 @@ const teamMembers = [
     image: "/sartaj.jpg",
     fallbackImage: "/placeholder-user.jpg",
     bio: "A legal battle is not just about arguments—it is about strategy, preparation, and execution, and no one understands this better than Advocate Sartaj Tyagi. Known for his tactical brilliance and deep understanding of legal complexities, he has successfully represented clients in corporate law, civil litigation, and high-stakes disputes. His analytical approach ensures that every legal strategy is airtight and backed by solid evidence, leaving no room for opposition.",
-    socialMedia: {
-      linkedin: "#",
-      twitter: "#",
-    },
+
   },
   {
     id: 8,
@@ -115,10 +94,7 @@ const teamMembers = [
     image: "/FatimaParveen.jpeg",
     fallbackImage: "/placeholder-user.jpg",
     bio: "Advocate Fatima Parveen is a dedicated legal professional known for her expertise in family law and civil matters. With a strong background in legal practice, she has successfully represented numerous clients, ensuring justice and fair representation. Her commitment to legal excellence, attention to detail, and in-depth knowledge of the law make her a trusted advocate. She is passionate about upholding the rights of her clients and navigating complex legal challenges with skill and determination.",
-    socialMedia: {
-      linkedin: "#",
-      twitter: "#",
-    },
+
   },
   {
     id: 9,
@@ -128,10 +104,7 @@ const teamMembers = [
     image: "/Shabnamchaudhary.jpeg",
     fallbackImage: "/placeholder-user.jpg",
     bio: "Advocate Shabnam Chaudhary is a highly skilled and accomplished legal practitioner specializing in civil rights and human rights law. With a reputation for her analytical approach and persuasive advocacy, she has been instrumental in achieving favorable outcomes for her clients. Her dedication to justice, ethical practice, and strategic legal insights set her apart in the legal profession. She is committed to protecting the rights of individuals and businesses, ensuring that justice is served effectively and efficiently.",
-    socialMedia: {
-      linkedin: "#",
-      twitter: "#",
-    },
+
   },
 ];
 
@@ -199,14 +172,14 @@ export default function TeamSection() {
                 className="overflow-hidden h-full hover:shadow-lg transition-shadow cursor-pointer group"
                 onClick={() => openMemberDialog(member)}
               >
-                <div className="relative h-64 sm:h-60 md:h-64">
+                <div className={`relative ${member.id === 1 ? 'h-72 sm:h-68 md:h-72' : 'h-64 sm:h-60 md:h-64'}`}>
                   <Image
                     src={member.image}
                     alt={member.name}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     priority={member.id <= 4}
-                    className="object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                    className={`object-cover ${member.id === 1 ? 'object-[center_25%]' : 'object-top'} group-hover:scale-105 transition-transform duration-300`}
                     quality={member.id === 5 ? 75 : 90}
                     loading={member.id === 5 ? "lazy" : undefined}
                     onError={(e) => {
@@ -214,7 +187,7 @@ export default function TeamSection() {
                       e.target.src = member.fallbackImage;
                     }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30  to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
                     <div className="flex gap-2">
                       {member.socialMedia?.linkedin && (
                         <a

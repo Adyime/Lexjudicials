@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  postgres_db:
+    image: postgres:16
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: lawFirm
+    ports:
+      - "5434:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: my_app
+    restart: always
+    depends_on:
+      - postgres_db
+    environment:
+      DATABASE_URL: "postgresql://postgres:postgres@postgres_db:5432/lawFirm"
+      NEXTAUTH_URL: "http://localhost:1009"
+      NEXTAUTH_SECRET: "your-nextauth-secret-key-change-this-in-production"
+      H_USER: "office@lexjudis.com"
+      H_PASS: "Office@lexjudis.com1"
+
+    ports:
+      - "1009:3000"
+    command: ["/bin/sh", "-c", "npx prisma migrate deploy && npm run start"]
+
+volumes:
+  pg_data:

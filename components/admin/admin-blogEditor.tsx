@@ -112,7 +112,6 @@ export function AdminBlogEditor({ blog }: AdminBlogEditorProps) {
         setFeaturedImageUrl(blog.featuredImage);
       }
     }
-    console.log(blog);
   }, [blog, form, categories]);
 
   async function onSubmit(values: FormValues) {
