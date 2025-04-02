@@ -10,7 +10,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: lexjudis
     ports:
-      - "5434:5432"
+      - "5435:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
 
