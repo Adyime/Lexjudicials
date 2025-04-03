@@ -403,7 +403,7 @@ export default function CallToAction() {
                     Call Us
                   </h3>
                 </div>
-                <p className="text-white/80 mb-2">(555) 123-4567</p>
+                <p className="text-white/80 mb-2">+91 95609 68575</p>
                 <p className="text-white/60 text-xs md:text-sm">
                   Available 24/7 for emergencies
                 </p>
@@ -418,7 +418,7 @@ export default function CallToAction() {
                     Email Us
                   </h3>
                 </div>
-                <p className="text-white/80 mb-2">contact@justicelaw.com</p>
+                <p className="text-white/80 mb-2">office@lexjudis.com</p>
                 <p className="text-white/60 text-xs md:text-sm">
                   We respond within 24 hours
                 </p>
